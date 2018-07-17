@@ -118,6 +118,9 @@ function removeDoc(array, action) {
  */
 function writeCollection(collectionState, action) {
   const { meta, merge = { doc: true, collections: true } } = action;
+  if (meta.merge) {
+    return unionBy(collectionState, action.payload.ordered, val => val.id);
+  }
   if (meta.storeAs) {
     return action.payload.ordered;
   }
